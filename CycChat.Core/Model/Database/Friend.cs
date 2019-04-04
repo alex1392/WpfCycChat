@@ -1,4 +1,4 @@
-namespace CycChat.Core
+﻿namespace CycChat.Core
 {
   using System;
   using System.Collections.Generic;
@@ -6,27 +6,16 @@ namespace CycChat.Core
   using System.ComponentModel.DataAnnotations.Schema;
   using System.Data.Entity.Spatial;
 
-  public partial class User
+  public partial class Friend
   {
-    public User()
-    {
-
-    }
-
-    public User(string username, string password)
-    {
-      UserName = username;
-      Password = password;
-    }
-
     public int ID { get; set; }
 
     [Required]
     [StringLength(50)]
-    public string UserName { get; set; }
+    public string A { get; set; }
 
     [Required]
     [StringLength(50)]
-    public string Password { get; set; }
+    public string B { get; set; }
   }
 }

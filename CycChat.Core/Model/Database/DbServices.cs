@@ -14,68 +14,101 @@ namespace CycChat.Core
   {
     private static readonly int msTimeout = 2000;
 
-    public static async Task<bool> DbConnectAsync(Action action)
+    /// <summary>
+    /// Test that the server is connected
+    /// </summary>
+    /// <returns>true if the connection is opened</returns>
+    private static async Task<bool> CheckConnectionAsync()
     {
+      var flag = false;
+      string sqlMessage = null;
       try
       {
         var cts = new CancellationTokenSource(msTimeout);
         await NativeMethod.CursorWaitForAsync(() =>
         {
-          try
+          using (var dbContext = new CycChatDbContext())
           {
-            action.Invoke();
-          }
-          catch (SqlException) // force timeout, since there is no way to catch exception inside Task.Run
-          {
-            Task.Delay(msTimeout).Wait();
+            try
+            {
+              dbContext.Database.Connection.Open();
+              flag = true;
+            }
+            catch (SqlException e)// force timeout, since there is no way to catch exception inside Task.Run
+            {
+              sqlMessage = e.Message;
+              Task.Delay(msTimeout).Wait();
+            }
           }
         }, cts.Token);
-        return true;
       }
       catch (TaskCanceledException)
       {
-        MessageBox.Show("Database connection timeout!");
-        return false;
+        MessageBox.Show(sqlMessage ?? "Database connection timeout!");
       }
+      return flag;
     }
 
     public static async Task<List<User>> GetUsersAsync()
     {
       List<User> Users = new List<User>();
-      await DbConnectAsync(() =>
+      if (await CheckConnectionAsync())
       {
-        try
+        using (var dbContext = new CycChatDbContext())
         {
-          using (var dbContext = new DataBaseModel())
-          {
-            Users = dbContext.Users.Select(u => u).ToList();
-          }
+          Users = dbContext.Users.Select(u => u).ToList();
         }
-        catch (Exception)
-        {
-          throw;
-        }
-      });
+      }
       return Users;
     }
 
     public static async Task<bool> AddUserAsync(User user)
     {
-      return await DbConnectAsync(() =>
+      var flag = await CheckConnectionAsync();
+      if (flag)
       {
-        try
+        using (var dbContext = new CycChatDbContext())
         {
-          using (var dbContext = new DataBaseModel())
+          dbContext.Users.Add(user);
+          dbContext.SaveChanges();
+        }
+      }
+      return flag;
+    }
+
+    public static async Task<List<Chat>> GetUserChatsAsync(string username)
+    {
+      List<Chat> chats = new List<Chat>();
+      if (await CheckConnectionAsync())
+      {
+        using (var dbContext = new CycChatDbContext())
+        {
+          chats = dbContext.Chats.Where(c => 
+                    c.Sender == username || 
+                    c.Receiver == username).ToList();
+        }
+      }
+      return chats;
+    }
+
+    public static async Task<List<string>> GetUserFriendsAsync(string username)
+    {
+      List<string> friendNames = new List<string>();
+      if (await CheckConnectionAsync())
+      {
+        using (var dbContext = new CycChatDbContext())
+        {
+          var friends = dbContext.Friends;
+          foreach (var friend in friends)
           {
-            dbContext.Users.Add(user);
-            dbContext.SaveChanges();
+            if (friend.A == username)
+              friendNames.Add(friend.B);
+            else if (friend.B == username)
+              friendNames.Add(friend.A);
           }
         }
-        catch (Exception)
-        {
-          throw;
-        }
-      });
+      }
+      return friendNames;
     }
   }
 }

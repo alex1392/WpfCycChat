@@ -1,0 +1,26 @@
+﻿<Window x:Class="CycChat.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CycChat"
+        xmlns:core="clr-namespace:CycChat.Core;assembly=CycChat.Core"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=core:MainViewModel, IsDesignTimeCreatable=True}"
+        Title="MainWindow"
+        Height="450"
+        Width="400">
+  <DockPanel>
+    <StackPanel DockPanel.Dock="Left"
+                Orientation="Vertical">
+      <Button Width="100"
+              Content="Account" 
+              Command="{Binding ToAccountPageCommand}"/>
+      <Button Width="100"
+              Content="Chat List"
+              Command="{Binding ToChatListPageCommand}"/>
+    </StackPanel>
+    <Frame Content="{Binding CurrentPage, Converter={local:MainPageConverter}}"
+           NavigationUIVisibility="Hidden" />
+  </DockPanel>
+</Window>

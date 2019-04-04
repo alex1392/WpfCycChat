@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace CycChat
 {
     /// <summary>
-    /// ChatWindow.xaml 的互動邏輯
+    /// AccountPage.xaml 的互動邏輯
     /// </summary>
-    public partial class ChatWindow : Window
+    public partial class AccountPage : Page
     {
-        public ChatWindow()
+        public AccountPage()
         {
             InitializeComponent();
         }

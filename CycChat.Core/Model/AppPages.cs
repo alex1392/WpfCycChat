@@ -6,10 +6,17 @@ using System.Threading.Tasks;
 
 namespace CycChat.Core
 {
-  public enum AppPages
+  public enum LoginPages
   {
     None,
     Login,
     Register,
+  }
+
+  public enum MainPages
+  {
+    None,
+    Account,
+    ChatList,
   }
 }

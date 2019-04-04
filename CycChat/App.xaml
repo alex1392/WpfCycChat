@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:CycChat"
              xmlns:re="clr-namespace:CycWpfLibrary.Resource;assembly=CycWpfLibrary.Resource"
              xmlns:cyc="clr-namespace:CycWpfLibrary;assembly=CycWpfLibrary"
+             xmlns:core="clr-namespace:CycChat.Core;assembly=CycChat.Core"
              xmlns:sys="clr-namespace:System;assembly=mscorlib">
   <Application.Resources>
     <ResourceDictionary>
@@ -15,13 +16,7 @@
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
       </ResourceDictionary.MergedDictionaries>
 
-      <Style TargetType="Label">
-        <Setter Property="VerticalAlignment"
-                Value="Center" />
-        <Setter Property="HorizontalAlignment"
-                Value="Right" />
-      </Style>
-      <Style x:Key="TextBoxStyle"
+      <Style x:Key="LoginTextBoxStyleBase"
              TargetType="Control">
         <Setter Property="VerticalAlignment"
                 Value="Center" />
@@ -38,16 +33,22 @@
         <Setter Property="VerticalContentAlignment"
                 Value="Center" />
       </Style>
-      <Style TargetType="TextBox"
-             BasedOn="{cyc:MergedStyles BasedOn={StaticResource MetroTextBox}, MergeStyle={StaticResource TextBoxStyle}}">
-
+      <Style x:Key="LoginLabelStyle"
+             TargetType="Label">
+        <Setter Property="VerticalAlignment"
+                Value="Center" />
+        <Setter Property="HorizontalAlignment"
+                Value="Right" />
       </Style>
-      <Style TargetType="PasswordBox"
-             BasedOn="{cyc:MergedStyles BasedOn={StaticResource MetroPasswordBox}, MergeStyle={StaticResource TextBoxStyle}}">
-      </Style>
+      <Style x:Key="LoginTextBoxStyle"
+             TargetType="TextBox"
+             BasedOn="{cyc:MergedStyles BasedOn={StaticResource MetroTextBox}, MergeStyle={StaticResource LoginTextBoxStyleBase}}" />
+      <Style x:Key="LoginPasswordBoxStyle"
+             TargetType="PasswordBox"
+             BasedOn="{cyc:MergedStyles BasedOn={StaticResource MetroPasswordBox}, MergeStyle={StaticResource LoginTextBoxStyleBase}}" />
       <SolidColorBrush x:Key="Button.Pressed.Background"
                        Color="#FFC4E5F6" />
-      <Style x:Key="LabelButtonStyle"
+      <Style x:Key="LoginLabelButtonStyle"
              TargetType="Button">
         <Setter Property="Background"
                 Value="TransParent" />
@@ -100,6 +101,7 @@
           </Setter.Value>
         </Setter>
       </Style>
+
       <re:CycResources x:Key="resources" />
 
       <sys:String x:Key="UserNameNullMessage">
@@ -129,6 +131,7 @@
       <sys:String x:Key="PasswordSimilarMessage">
         Password should not be similar with user name.
       </sys:String>
+
     </ResourceDictionary>
   </Application.Resources>
 </Application>

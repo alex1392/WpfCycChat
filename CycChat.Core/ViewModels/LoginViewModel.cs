@@ -23,7 +23,7 @@ namespace CycChat.Core
       ToRegisterCommand = new RelayCommand(ToRegisterPage);
       ToLoginCommand = new RelayCommand(ToLoginPage);
       PropertyChanged += ViewModel_PropertyChangedAsync;
-      CurrentPage = AppPages.Login;
+      CurrentPage = LoginPages.Login; // invoke propertychanged event
     }
 
     private async void ViewModel_PropertyChangedAsync(object sender, PropertyChangedEventArgs e)
@@ -38,7 +38,7 @@ namespace CycChat.Core
       }
     }
 
-    public AppPages CurrentPage { get; set; } = AppPages.None;
+    public LoginPages CurrentPage { get; set; } 
 
     public ICommand LoginCommand { get; set; }
     public ICommand RegisterCommand { get; set; }
@@ -57,6 +57,30 @@ namespace CycChat.Core
       LoggedIn?.Invoke(this, null);
     }
 
+    private bool CanRegister()
+    {
+      return CanLogin();
+    }
+    private void ToRegisterPage()
+    {
+      CurrentPage = LoginPages.Register;
+    }
+    private async void RegisterAsync()
+    {
+      if (await DbServices.AddUserAsync(new User(UserName, Password)))
+      {
+        MessageBox.Show("Register successfully!");
+        ToLoginPage();
+      }
+    }
+    private bool CanLogin()
+    {
+      return IsViewValid && !string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password);
+    }
+    private void ToLoginPage()
+    {
+      CurrentPage = LoginPages.Login;
+    }
     private async void LoginAsync()
     {
       Users = await DbServices.GetUsersAsync();
@@ -73,32 +97,14 @@ namespace CycChat.Core
       else
       {
         MessageBox.Show("Log in successfully!");
-        OnLoggedIn();
+        UploadData();
+        OnLoggedIn(); // should be the final step
       }
     }
-    private async void RegisterAsync()
+    private void UploadData()
     {
-      if (await DbServices.AddUserAsync(new User(UserName, Password)))
-      {
-        MessageBox.Show("Register successfully!");
-        ToLoginPage();
-      }
-    }
-    private bool CanLogin()
-    {
-      return IsViewValid && !string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password);
-    }
-    private bool CanRegister()
-    {
-      return CanLogin();
-    }
-    private void ToLoginPage()
-    {
-      CurrentPage = AppPages.Login;
-    }
-    private void ToRegisterPage()
-    {
-      CurrentPage = AppPages.Register;
+      Data.UserName = UserName;
+
     }
   }
 }

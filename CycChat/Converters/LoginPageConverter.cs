@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace CycChat
 {
-  public class PageConverter : ValueConverterBase<PageConverter>
+  public class LoginPageConverter : ValueConverterBase<LoginPageConverter>
   {
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      switch ((AppPages)value)
+      switch ((LoginPages)value)
       {
         default:
-        case AppPages.Login:
+        case LoginPages.Login:
           return DI.loginPage;
-        case AppPages.Register:
+        case LoginPages.Register:
           return DI.registerPage;
       }
     }

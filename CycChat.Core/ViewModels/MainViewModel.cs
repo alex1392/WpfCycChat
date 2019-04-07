@@ -10,52 +10,41 @@ using System.Windows.Input;
 
 namespace CycChat.Core
 {
-  public class LastChat
-  {
-    public LastChat(string friendName, string content)
-    {
-      FriendName = friendName;
-      Content = content;
-    }
-    public string FriendName { get; set; }
-    public string Content { get; set; }
-  }
-
   public class MainViewModel : ViewModelBase
   {
     public MainViewModel()
     {
       ToAccountPageCommand = new RelayCommand(ToAccountPage);
       ToChatListPageCommand = new RelayCommand(ToChatListPage);
+      NewChatCommand = new RelayCommand(NewChat);
+      InitializeAsync();
     }
 
-    public async void Initialize()
+    public async void InitializeAsync()
     {
-      userName = Data.UserName;
-      friendNames = await DbServices.GetUserFriendsAsync(userName);
-      userChats = await DbServices.GetUserChatsAsync(userName);
-      foreach (var name in friendNames)
-      {
-        friendChatLists[name] = userChats
-          .Where(c => c.Sender == name || c.Receiver == name)
-          .OrderByDescending(c => c.Time).ToList();
-      }
-      LastChats = friendChatLists
-        .Where(L => L.Value.Count > 0)
-        .Select(L => new LastChat(L.Key, L.Value[0].Content)).ToList();
+      //foreach (var name in friendNames)
+      //{
+      //  friendChatLists[name] = userChats
+      //    .Where(c => c.Sender == name || c.Receiver == name)
+      //    .OrderByDescending(c => c.Time).ToList();
+      //}
     }
 
-    private string userName;
-    private List<string> friendNames;
-    private List<Chat> userChats;
-    private Dictionary<string, List<Chat>> friendChatLists = new Dictionary<string, List<Chat>>();
+    private string UserName => UserDataModel.Name;
+    private List<string> FriendNames => UserDataModel.FriendNames;
+    private List<Chat> UserAllChats => UserDataModel.Chats;
+    private List<ChatRoom> UserChatRooms => UserDataModel.ChatRooms;
+
+    //private Dictionary<string, List<Chat>> friendChatLists = new Dictionary<string, List<Chat>>();
 
     public MainPages CurrentPage { get; set; } = MainPages.ChatList;
 
-    public List<LastChat> LastChats { get; set; }
+    public List<ChatRoom> ChatRooms { get; set; }
 
     public ICommand ToAccountPageCommand { get; set; }
     public ICommand ToChatListPageCommand { get; set; }
+    public ICommand NewChatCommand { get; set; }
+    public readonly object newChatToken = new object();
 
     public void ToAccountPage()
     {
@@ -64,6 +53,10 @@ namespace CycChat.Core
     public void ToChatListPage()
     {
       CurrentPage = MainPages.ChatList;
+    }
+    public void NewChat()
+    {
+      Messenger.Default.Send(new Message(), newChatToken);
     }
 
   }

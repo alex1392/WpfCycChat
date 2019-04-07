@@ -14,48 +14,42 @@ using System.Windows.Input;
 
 namespace CycChat.Core
 {
+
   public class LoginViewModel : ViewModelBase
   {
+    public readonly object messageToken = new object();
+    public readonly object loginToken = new object();
+
     public LoginViewModel()
     {
-      LoginCommand = new RelayCommand(LoginAsync, CanLogin);
+      LoginCommand = new RelayCommand(Login, CanLogin);
       RegisterCommand = new RelayCommand(RegisterAsync, CanRegister);
       ToRegisterCommand = new RelayCommand(ToRegisterPage);
       ToLoginCommand = new RelayCommand(ToLoginPage);
-      PropertyChanged += ViewModel_PropertyChangedAsync;
-      CurrentPage = LoginPages.Login; // invoke propertychanged event
+      StaticPropertyChanged += LoginViewModel_StaticPropertyChanged;
     }
 
-    private async void ViewModel_PropertyChangedAsync(object sender, PropertyChangedEventArgs e)
+    private void LoginViewModel_StaticPropertyChanged(object sender, StaticPropertyChangedEventArgs e)
     {
-      switch (e.PropertyName)
+      if (e.ClassName == nameof(DataModel) &&
+        e.PropertyName == nameof(DataModel.Users))
       {
-        case nameof(CurrentPage):
-          Users = await DbServices.GetUsersAsync();
-          break;
-        default:
-          break;
+        OnPropertyChanged(nameof(UserNames));
       }
     }
 
-    public LoginPages CurrentPage { get; set; } 
+    public LoginPages CurrentPage { get; set; } = LoginPages.Login;
 
     public ICommand LoginCommand { get; set; }
     public ICommand RegisterCommand { get; set; }
     public ICommand ToRegisterCommand { get; set; }
     public ICommand ToLoginCommand { get; set; }
 
-    public List<User> Users { get; set; }
+    public List<User> Users => DataModel.Users;
     public List<string> UserNames => Users?.Select(u => u.UserName).ToList();
     public List<string> Passwords => Users?.Select(u => u.Password).ToList();
     public string UserName { get; set; }
     public string Password { get; set; }
-
-    public event EventHandler LoggedIn;
-    protected virtual void OnLoggedIn()
-    {
-      LoggedIn?.Invoke(this, null);
-    }
 
     private bool CanRegister()
     {
@@ -67,9 +61,9 @@ namespace CycChat.Core
     }
     private async void RegisterAsync()
     {
-      if (await DbServices.AddUserAsync(new User(UserName, Password)))
+      if (await DataModel.AddAsync<User, AppDbContext>(new User(UserName, Password)))
       {
-        MessageBox.Show("Register successfully!");
+        Messenger.Default.Send(new Message<string>("Register successfully!"), messageToken);
         ToLoginPage();
       }
     }
@@ -81,30 +75,23 @@ namespace CycChat.Core
     {
       CurrentPage = LoginPages.Login;
     }
-    private async void LoginAsync()
+    private void Login()
     {
-      Users = await DbServices.GetUsersAsync();
       if (Users.Count == 0)
         return;
       else if (!Users.Any(u => u.UserName == UserName))
       {
-        MessageBox.Show("No matched user name!");
+        Messenger.Default.Send(new Message<string>("No matched user name!"), messageToken);
       }
       else if (!Users.Any(u => u.Password == Password))
       {
-        MessageBox.Show("Incorrect password!");
+        Messenger.Default.Send(new Message<string>("Incorrect password!"), messageToken);
       }
       else
       {
-        MessageBox.Show("Log in successfully!");
-        UploadData();
-        OnLoggedIn(); // should be the final step
+        Messenger.Default.Send(new Message<string>("Log in successfully!"), messageToken);
+        Messenger.Default.Send(new Message(), loginToken);
       }
-    }
-    private void UploadData()
-    {
-      Data.UserName = UserName;
-
     }
   }
 }

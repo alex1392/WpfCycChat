@@ -38,6 +38,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
+    </Reference>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
@@ -82,13 +85,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\ChatAlignmentConverter.cs" />
     <Compile Include="Converters\LoginPageConverter.cs" />
     <Compile Include="Converters\MainPageConverter.cs" />
     <Compile Include="Views\AccountPage.xaml.cs">
       <DependentUpon>AccountPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ChatListPage.xaml.cs">
-      <DependentUpon>ChatListPage.xaml</DependentUpon>
+    <Compile Include="Views\ChatRoomsPage.xaml.cs">
+      <DependentUpon>ChatRoomsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChatWindow.xaml.cs">
       <DependentUpon>ChatWindow.xaml</DependentUpon>
@@ -103,14 +107,14 @@
     <Compile Include="Views\Login\RegisterPage.xaml.cs">
       <DependentUpon>RegisterPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NewChatDialog.xaml.cs">
-      <DependentUpon>NewChatDialog.xaml</DependentUpon>
+    <Compile Include="Views\ChatDialog.xaml.cs">
+      <DependentUpon>ChatDialog.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\AccountPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ChatListPage.xaml">
+    <Page Include="Views\ChatRoomsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -130,7 +134,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="IoC\DI.cs" />
+    <Compile Include="IoC\ViewModelLocator.cs" />
     <Compile Include="Views\Login\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -142,7 +146,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\NewChatDialog.xaml">
+    <Page Include="Views\ChatDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -164,6 +168,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="appveyor.yml" />
     <None Include="packages.config" />

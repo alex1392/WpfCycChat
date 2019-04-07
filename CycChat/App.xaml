@@ -15,7 +15,7 @@
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
       </ResourceDictionary.MergedDictionaries>
-
+      
       <Style x:Key="LoginTextBoxStyleBase"
              TargetType="Control">
         <Setter Property="VerticalAlignment"
@@ -116,14 +116,17 @@
       <sys:String x:Key="PasswordMismatchMessage">
         Passwords are mismatched.
       </sys:String>
-      <sys:String x:Key="PasswordContainLowerMessage">
+      <sys:String x:Key="PasswordHasLowerMessage">
         Password should contain a lower letter.
       </sys:String>
-      <sys:String x:Key="PasswordContainUpperMessage">
+      <sys:String x:Key="PasswordHasUpperMessage">
         Password should contain a upper letter.
       </sys:String>
-      <sys:String x:Key="PasswordContainSymbolMessage">
+      <sys:String x:Key="PasswordHasSymbolMessage">
         Password should contain a symbol.
+      </sys:String>
+      <sys:String x:Key="PasswordHasNumberMessage">
+        Password should contain a number.
       </sys:String>
       <sys:String x:Key="PasswordTooShortMessage">
         Password is too short.

@@ -4,11 +4,64 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CycChat"
+        xmlns:core="clr-namespace:CycChat.Core;assembly=CycChat.Core"
+        d:DataContext="{d:DesignInstance Type=core:ChatViewModel, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
         Title="ChatWindow"
         Height="450"
         Width="400">
-  <Grid>
+  <Grid Name="mainGrid">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"
+                     MinHeight="300" />
+      <RowDefinition Height="100" />
+    </Grid.RowDefinitions>
 
+    <ListBox ItemsSource="{Binding Chats}">
+      <ListBox.ItemTemplate>
+        <DataTemplate DataType="{x:Type core:Chat}">
+          <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical"
+                        Margin="10,5">
+              <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                  <Setter Property="HorizontalAlignment"
+                          Value="{Binding Sender, Converter={local:ChatAlignmentConverter}}" />
+                </Style>
+              </StackPanel.Resources>
+              <TextBlock Text="{Binding Sender}"
+                         TextWrapping="Wrap"
+                         FontWeight="Bold" />
+              <TextBlock Text="{Binding Content}"
+                         TextWrapping="Wrap" />
+              <TextBlock Text="{Binding Time}"
+                         FontSize="10" />
+            </StackPanel>
+          </StackPanel>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Vertical" />
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+    </ListBox>
+
+    <Grid Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="auto" />
+      </Grid.ColumnDefinitions>
+      <TextBox Name="ChatTextBox"
+               KeyDown="ChatTextBox_KeyDown"
+               Text="{Binding Chat}" />
+      <Button Name="SendButton"
+              Content="Send"
+              Width="50"
+              Height="30"
+              Grid.Column="1"
+              Margin="5"
+              Command="{Binding SendCommand}" />
+    </Grid>
   </Grid>
 </Window>

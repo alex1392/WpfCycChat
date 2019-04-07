@@ -14,14 +14,25 @@ using System.Windows.Shapes;
 
 namespace CycChat
 {
-    /// <summary>
-    /// ChatWindow.xaml 的互動邏輯
-    /// </summary>
-    public partial class ChatWindow : Window
+  /// <summary>
+  /// ChatWindow.xaml 的互動邏輯
+  /// </summary>
+  public partial class ChatWindow : Window
+  {
+    public ChatWindow(string friendName)
     {
-        public ChatWindow()
-        {
-            InitializeComponent();
-        }
+      InitializeComponent();
+      DataContext = DI.ChatVM;
     }
+
+    private void ChatTextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+      if (e.Key == Key.Enter && 
+        e.KeyboardDevice.Modifiers != ModifierKeys.Shift &&
+        DI.ChatVM.SendCommand.CanExecute())
+      {
+        DI.ChatVM.SendCommand.Execute();
+      }
+    }
+  }
 }

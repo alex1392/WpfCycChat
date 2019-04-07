@@ -1,0 +1,41 @@
+﻿<Window x:Class="CycChat.ChatDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CycChat"
+        xmlns:core="clr-namespace:CycChat.Core;assembly=CycChat.Core"
+        xmlns:cyc="clr-namespace:CycWpfLibrary;assembly=CycWpfLibrary"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=core:ChatDialogViewModel, IsDesignTimeCreatable=True}"
+        Title="NewChatDialog"
+        Height="150"
+        Width="300">
+  <Grid>
+    <StackPanel Orientation="Vertical"
+                VerticalAlignment="Center">
+      <TextBox Name="friendName"
+               Margin="20,5"
+               cyc:WatermarkService.Watermark="User Name"
+               TextChanged="FriendName_TextChanged">
+        <TextBox.Text>
+          <Binding Path="FriendName"
+                   UpdateSourceTrigger="PropertyChanged">
+            <Binding.ValidationRules>
+              <cyc:MatchAnyValidation Message="No friend matches the user name.">
+                <cyc:MatchAnyValidation.DP>
+                  <cyc:MatchListDP MatchList="{Binding FriendNames, Source={x:Static local:DI.ChatDialogVM}}" />
+                </cyc:MatchAnyValidation.DP>
+              </cyc:MatchAnyValidation>
+            </Binding.ValidationRules>
+          </Binding>
+        </TextBox.Text>
+      </TextBox>
+      <Button Name="ChatButton"
+              Content="Start Chatting!" 
+              Width="100"
+              Command="{Binding NewChatCommand}"/>
+
+    </StackPanel>
+  </Grid>
+</Window>

@@ -54,7 +54,7 @@
               <cyc:NotNullValidation Message="{StaticResource UserNameNullMessage}" />
               <cyc:NoMatchValidation Message="{StaticResource UserNameUsedMessage}">
                 <cyc:NoMatchValidation.DP>
-                  <cyc:MatchListDP MatchList="{Binding Source={x:Static local:DI.loginViewModel}, Path=UserNames}" />
+                  <cyc:MatchListDP MatchList="{Binding Source={x:Static local:DI.LoginVM}, Path=UserNames}" />
                 </cyc:NoMatchValidation.DP>
               </cyc:NoMatchValidation>
             </Binding.ValidationRules>
@@ -74,15 +74,16 @@
                    UpdateSourceTrigger="PropertyChanged">
             <Binding.ValidationRules>
               <cyc:NotNullValidation Message="{StaticResource PasswordNullMessage}" />
-              <cyc:ContainLowerValidation Message="{StaticResource PasswordContainLowerMessage}"/>
-              <cyc:ContainUpperValidation Message="{StaticResource PasswordContainUpperMessage}"/>
-              <cyc:ContainSymbolValidation Message="{StaticResource PasswordContainSymbolMessage}"/>
+              <cyc:HasLowerValidation Message="{StaticResource PasswordHasLowerMessage}"/>
+              <cyc:HasUpperValidation Message="{StaticResource PasswordHasUpperMessage}"/>
+              <cyc:HasSymbolValidation Message="{StaticResource PasswordHasSymbolMessage}"/>
+              <cyc:HasNumberValidation Message="{StaticResource PasswordHasNumberMessage}" />
               <cyc:MinLengthValidation MinLength="8"
                                        Message="{StaticResource PasswordTooShortMessage}" />
               <cyc:NotSimilarValidation tolerance="0.9"
                                         Message="{StaticResource PasswordSimilarMessage}">
                 <cyc:NotSimilarValidation.DP>
-                  <cyc:MatchValidationDP Match="{Binding UserName, Source={x:Static local:DI.loginViewModel}}" />
+                  <cyc:MatchValidationDP Match="{Binding UserName, Source={x:Static local:DI.LoginVM}}" />
                 </cyc:NotSimilarValidation.DP>
               </cyc:NotSimilarValidation>
             </Binding.ValidationRules>
@@ -106,7 +107,7 @@
             <Binding.ValidationRules>
               <cyc:MatchValidation Message="{StaticResource PasswordMismatchMessage}">
                 <cyc:MatchValidation.DP>
-                  <cyc:MatchValidationDP Match="{Binding Password, Source={x:Static local:DI.loginViewModel}}" />
+                  <cyc:MatchValidationDP Match="{Binding Password, Source={x:Static local:DI.LoginVM}}" />
                 </cyc:MatchValidation.DP>
               </cyc:MatchValidation>
             </Binding.ValidationRules>

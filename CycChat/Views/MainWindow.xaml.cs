@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CycChat.Core;
+using CycWpfLibrary;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace CycChat
 {
@@ -22,13 +12,8 @@ namespace CycChat
     public MainWindow()
     {
       InitializeComponent();
-      DataContext = DI.mainViewModel;
-      Loaded += MainWindow_Loaded;
-    }
-
-    private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-    {
-      DI.mainViewModel.Initialize();
+      DataContext = DI.MainVM;
+      Messenger.Default.Register<Message<string>>(this, DbService<AppDbContext>.errorToken, msg => MessageBox.Show(msg.Content));
     }
   }
 }

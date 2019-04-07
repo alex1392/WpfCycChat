@@ -13,9 +13,9 @@ namespace CycChat
       {
         default:
         case MainPages.Account:
-          return DI.accountPage;
+          return new AccountPage();
         case MainPages.ChatList:
-          return DI.chatListPage;
+          return new ChatRoomsPage();
       }
     }
 

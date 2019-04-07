@@ -1,18 +1,6 @@
 ﻿using CycWpfLibrary;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CycChat
 {
@@ -24,12 +12,14 @@ namespace CycChat
     public LoginPage()
     {
       InitializeComponent();
-      DataContext = DI.loginViewModel;
+      DataContext = DI.LoginVM;
+
+      Messenger.Default.Register<Message<string>>(this, DI.LoginVM.messageToken, msg => MessageBox.Show(msg.Content));
     }
 
     private void TextBox_LostFocus(object sender, RoutedEventArgs e)
     {
-      TextBoxBehaviors.TextBox_LostFocus(sender, e, DI.loginViewModel, this);
+      TextBoxBehaviors.ViewValidation(sender, e, DI.LoginVM, this);
     }
   }
 }

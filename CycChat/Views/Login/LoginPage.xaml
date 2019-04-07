@@ -53,7 +53,7 @@
               <cyc:NotNullValidation Message="{StaticResource UserNameNullMessage}" />
               <cyc:MatchAnyValidation Message="No matched user name.">
                 <cyc:MatchAnyValidation.DP>
-                  <cyc:MatchListDP MatchList="{Binding UserNames, Source={x:Static local:DI.loginViewModel}}" />
+                  <cyc:MatchListDP MatchList="{Binding UserNames, Source={x:Static local:DI.LoginVM}}" />
                 </cyc:MatchAnyValidation.DP>
               </cyc:MatchAnyValidation>
             </Binding.ValidationRules>

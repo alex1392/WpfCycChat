@@ -17,9 +17,9 @@ namespace CycChat
       {
         default:
         case LoginPages.Login:
-          return DI.loginPage;
+          return new LoginPage();
         case LoginPages.Register:
-          return DI.registerPage;
+          return new RegisterPage();
       }
     }
 

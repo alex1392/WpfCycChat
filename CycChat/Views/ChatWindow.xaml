@@ -7,7 +7,7 @@
         xmlns:core="clr-namespace:CycChat.Core;assembly=CycChat.Core"
         d:DataContext="{d:DesignInstance Type=core:ChatViewModel, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
-        Title="ChatWindow"
+        Title="{Binding FriendName}"
         Height="450"
         Width="400">
   <Grid Name="mainGrid">
@@ -17,10 +17,9 @@
       <RowDefinition Height="100" />
     </Grid.RowDefinitions>
 
-    <ListBox ItemsSource="{Binding Chats}">
+    <ListBox ItemsSource="{Binding FriendChats}">
       <ListBox.ItemTemplate>
         <DataTemplate DataType="{x:Type core:Chat}">
-          <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Vertical"
                         Margin="10,5">
               <StackPanel.Resources>
@@ -37,7 +36,6 @@
               <TextBlock Text="{Binding Time}"
                          FontSize="10" />
             </StackPanel>
-          </StackPanel>
         </DataTemplate>
       </ListBox.ItemTemplate>
       <ListBox.ItemsPanel>
@@ -53,15 +51,17 @@
         <ColumnDefinition Width="auto" />
       </Grid.ColumnDefinitions>
       <TextBox Name="ChatTextBox"
-               KeyDown="ChatTextBox_KeyDown"
-               Text="{Binding Chat}" />
+               Margin="5"
+               Text="{Binding ChatText, UpdateSourceTrigger=PropertyChanged}"
+               VerticalScrollBarVisibility="Auto"
+               AcceptsReturn="True" />
       <Button Name="SendButton"
               Content="Send"
               Width="50"
               Height="30"
               Grid.Column="1"
               Margin="5"
-              Command="{Binding SendCommand}" />
+              Command="{Binding SendCommand}"/>
     </Grid>
   </Grid>
 </Window>

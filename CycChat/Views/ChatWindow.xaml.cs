@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CycChat.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,20 +20,13 @@ namespace CycChat
   /// </summary>
   public partial class ChatWindow : Window
   {
+    private ChatViewModel chatViewModel;
+
     public ChatWindow(string friendName)
     {
       InitializeComponent();
-      DataContext = DI.ChatVM;
-    }
-
-    private void ChatTextBox_KeyDown(object sender, KeyEventArgs e)
-    {
-      if (e.Key == Key.Enter && 
-        e.KeyboardDevice.Modifiers != ModifierKeys.Shift &&
-        DI.ChatVM.SendCommand.CanExecute())
-      {
-        DI.ChatVM.SendCommand.Execute();
-      }
+      chatViewModel = DI.ChatVM(friendName);
+      DataContext = chatViewModel;
     }
   }
 }

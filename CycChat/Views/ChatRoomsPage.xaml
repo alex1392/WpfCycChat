@@ -12,23 +12,32 @@
       Title="ChatListPage">
 
   <Grid>
-    <ListBox ItemsSource="{Binding ChatRooms}">
+    <ListBox Name="ChatRoomList"
+             ItemsSource="{Binding ChatRooms}">
       <ListBox.ItemTemplate>
         <DataTemplate DataType="{x:Type core:ChatRoom}">
-          <StackPanel Orientation="Vertical">
-            <TextBlock Text="{Binding FriendName}"
+          <Grid Margin="10,5">
+            <StackPanel Orientation="Vertical">
+              <TextBlock Text="{Binding FriendName}"
+                         TextWrapping="Wrap"
+                         FontWeight="Bold" />
+              <TextBlock Text="{Binding LastChat}"
+                         TextWrapping="Wrap" />
+            </StackPanel>
+            <TextBlock Text="{Binding Time}"
                        TextWrapping="Wrap"
-                       FontWeight="Bold"
-                       Margin="10,5" />
-            <TextBlock Text="{Binding Content}"
-                       TextWrapping="Wrap"
-                       Margin="10,5" />
-          </StackPanel>
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center" />
+            <Button Name="OpenChatButton"
+                    Style="{StaticResource TransparentButtonStyle}"
+                    Command="{Binding OpenChatCommand, Source={x:Static local:DI.MainVM}}"
+                    CommandParameter="{Binding FriendName}"/>
+          </Grid>
         </DataTemplate>
       </ListBox.ItemTemplate>
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
-          <StackPanel Orientation="Vertical"/>
+          <StackPanel Orientation="Vertical" />
         </ItemsPanelTemplate>
       </ListBox.ItemsPanel>
     </ListBox>

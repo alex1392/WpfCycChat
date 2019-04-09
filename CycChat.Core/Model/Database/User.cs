@@ -1,12 +1,13 @@
 namespace CycChat.Core
 {
+  using CycWpfLibrary;
   using System;
   using System.Collections.Generic;
   using System.ComponentModel.DataAnnotations;
   using System.ComponentModel.DataAnnotations.Schema;
   using System.Data.Entity.Spatial;
 
-  public partial class User
+  public partial class User : IData
   {
     public User()
     {

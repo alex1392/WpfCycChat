@@ -11,15 +11,19 @@
         Height="450"
         Width="400">
   <DockPanel>
-    <StackPanel DockPanel.Dock="Left"
-                Orientation="Vertical">
-      <Button Width="100"
-              Content="Account" 
-              Command="{Binding ToAccountPageCommand}"/>
-      <Button Width="100"
-              Content="Chat List"
-              Command="{Binding ToChatListPageCommand}"/>
-    </StackPanel>
+    <ListBox DockPanel.Dock="Left">
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Vertical" />
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+      <Button Content="Account"
+              Command="{Binding ToAccountPageCommand}" />
+      <Button Content="Chat Rooms"
+              Command="{Binding ToChatListPageCommand}" />
+      <Button Content="Friends"
+              Command="{Binding ToFriendPageCommand}" />
+    </ListBox>
     <Frame Content="{Binding CurrentPage, Converter={local:MainPageConverter}}"
            NavigationUIVisibility="Hidden" />
   </DockPanel>

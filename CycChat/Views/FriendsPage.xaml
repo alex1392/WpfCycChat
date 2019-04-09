@@ -1,0 +1,39 @@
+﻿<Page x:Class="CycChat.FriendsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:CycChat"
+      xmlns:core="clr-namespace:CycChat.Core;assembly=CycChat.Core"
+      d:DataContext="{d:DesignInstance Type=core:MainViewModel, IsDesignTimeCreatable=True}"
+      mc:Ignorable="d"
+      d:DesignHeight="450"
+      d:DesignWidth="400"
+      Title="FriendsPage">
+
+  <Grid>
+    <ListBox Name="FriendList"
+             ItemsSource="{Binding FriendNames}">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding }"
+                     TextWrapping="Wrap"
+                     FontWeight="Bold" />
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Vertical" />
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+    </ListBox>
+    <Button Name="NewFriendButton"
+            Width="80"
+            Height="50"
+            Content="New Friend"
+            Margin="0,0,10,10"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Command="{Binding NewFriendCommand}" />
+  </Grid>
+</Page>

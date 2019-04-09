@@ -17,6 +17,7 @@ namespace CycChat.Core
   {
     None,
     Account,
-    ChatList,
+    ChatRooms,
+    Friends,
   }
 }

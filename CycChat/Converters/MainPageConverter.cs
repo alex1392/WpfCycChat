@@ -14,8 +14,10 @@ namespace CycChat
         default:
         case MainPages.Account:
           return new AccountPage();
-        case MainPages.ChatList:
+        case MainPages.ChatRooms:
           return new ChatRoomsPage();
+        case MainPages.Friends:
+          return new FriendsPage();
       }
     }
 

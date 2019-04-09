@@ -90,7 +90,7 @@ namespace CycChat.Core
       else
       {
         Messenger.Default.Send(new Message<string>("Log in successfully!"), messageToken);
-        Messenger.Default.Send(new Message(), loginToken);
+        Messenger.Default.Send(EventMessage.Empty, loginToken);
       }
     }
   }

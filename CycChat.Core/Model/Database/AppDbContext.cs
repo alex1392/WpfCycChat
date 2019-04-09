@@ -5,6 +5,7 @@ namespace CycChat.Core
   using System.ComponentModel.DataAnnotations.Schema;
   using System.Linq;
   using CycWpfLibrary;
+  using System.Data.Entity.Validation;
 
   public partial class AppDbContext : DbContext
   {
@@ -21,6 +22,19 @@ namespace CycChat.Core
     protected override void OnModelCreating(DbModelBuilder modelBuilder)
     {
       
+    }
+
+    public override int SaveChanges()
+    {
+      try
+      {
+        return base.SaveChanges();
+      }
+      catch (DbEntityValidationException e)
+      {
+        var newException = new FormattedDbEntityValidationException(e);
+        throw newException;
+      }
     }
   }
 }

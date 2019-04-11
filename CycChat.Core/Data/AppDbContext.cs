@@ -7,7 +7,7 @@ namespace CycChat.Core
   using CycWpfLibrary;
   using System.Data.Entity.Validation;
 
-  public partial class AppDbContext : DbContext
+  public partial class AppDbContext : DbContextBase
   {
     public AppDbContext()
         : base("name=CycChatDbContext")
@@ -21,20 +21,11 @@ namespace CycChat.Core
 
     protected override void OnModelCreating(DbModelBuilder modelBuilder)
     {
-      
-    }
+      base.OnModelCreating(modelBuilder);
 
-    public override int SaveChanges()
-    {
-      try
-      {
-        return base.SaveChanges();
-      }
-      catch (DbEntityValidationException e)
-      {
-        var newException = new FormattedDbEntityValidationException(e);
-        throw newException;
-      }
+      // Fluent API
+      //modelBuilder.Entity<User>().HasKey(u => u.ID); // set key property for entity
+
     }
   }
 }

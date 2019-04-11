@@ -29,16 +29,16 @@ namespace CycChat
       loginWindow = new LoginWindow();
       loginWindow.Show();
 
-      //#if DEBUG
-      //      await DataModel.InitializeAsync(); // make sure data correct at the beginning
-      //      LoginVM.UserName = "alex1392";
-      //      LoginVM.Password = "Af04051314!";
-      //      LoginVM.LoginCommand.Execute(null);
-      //#else
-      //      loginWindow.Show();
-      //#endif
+#if DEBUG
+      //await DataModel.InitializeAsync(); // make sure data correct at the beginning
+      //LoginVM.UserName = "alex1392";
+      //LoginVM.Password = "Af04051314!";
+      //LoginVM.LoginCommand.Execute(null);
+#else
+      loginWindow.Show();
+#endif
 
-      
+
     }
 
     private void RegisterMessages()

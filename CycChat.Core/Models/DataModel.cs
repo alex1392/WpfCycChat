@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
@@ -39,7 +40,6 @@ namespace CycChat.Core
     private static List<Friend> friends = new List<Friend>();
     private static List<ChatRoom> chatRooms = new List<ChatRoom>();
     private static List<Chat> chats = new List<Chat>();
-
 
     public static List<User> Users
     {
